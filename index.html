@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<script>window.__DISTRIBUTED_CONFIG__={"_type":"ipgeun_config","publishedAt":"2026-08-01 10:00 #1785391619645","grant":{"1":1.25,"2":2.25,"3":3.25,"4":4,"5":5},"wageRate":96,"members":[{"id":"m0gusang1","name":"구상욱","rank":"부장","startDate":"2024-01-01","memo":""},{"id":"m0kimchl2","name":"김철","rank":"부장","startDate":"2025-05-01","memo":""},{"id":"m0parksu3","name":"박성수","rank":"부장","startDate":"2025-11-01","memo":""},{"id":"m0parkjh4","name":"박재홍","rank":"부장","startDate":"2024-02-01","memo":""},{"id":"m0leesh05","name":"이승현","rank":"부장","startDate":"2024-01-01","memo":""},{"id":"m0janghw6","name":"장희원","rank":"부장","startDate":"2026-06-01","memo":""},{"id":"m0jeongw7","name":"전광욱","rank":"부장","startDate":"2025-06-01","memo":""},{"id":"m0jeonsh8","name":"전성현","rank":"부장대우","startDate":"2026-05-01","memo":""},{"id":"m0kimsj10","name":"김상준","rank":"차장","startDate":"2023-01-01","memo":"","grant":{"1":1.25,"2":2.25,"3":3.25,"4":5.5,"5":5}},{"id":"m0leejj11","name":"이정준","rank":"수석","startDate":"2026-07-01","memo":""},{"id":"m0nohhs12","name":"노현석","rank":"부장","startDate":"2026-07-01","memo":""},{"id":"m0songkh11","name":"송국환","rank":"차장","startDate":"2026-08-01","memo":""},{"id":"m0kimjy12","name":"김종인","rank":"부장","startDate":"2026-08-01","memo":""}],"holidays":{"2025-01-01":"신정","2025-01-27":"설날연휴","2025-01-28":"설날","2025-01-29":"설날","2025-01-30":"설날연휴","2025-03-03":"삼일절(대체)","2025-05-05":"어린이날·부처님오신날","2025-05-06":"대체공휴일","2025-06-06":"현충일","2025-08-15":"광복절","2025-10-03":"개천절","2025-10-05":"추석연휴","2025-10-06":"추석","2025-10-07":"추석연휴","2025-10-08":"대체공휴일","2025-10-09":"한글날","2025-12-25":"성탄절","2026-01-01":"신정","2026-02-16":"설날연휴","2026-02-17":"설날","2026-02-18":"설날연휴","2026-03-01":"삼일절","2026-03-02":"대체공휴일","2026-05-05":"어린이날","2026-05-24":"부처님오신날","2026-05-25":"대체공휴일","2026-06-06":"현충일","2026-08-15":"광복절","2026-09-24":"추석연휴","2026-09-25":"추석","2026-09-26":"추석연휴","2026-10-03":"개천절","2026-10-09":"한글날","2026-12-25":"성탄절"},"submitEmail":"syhong@heungaline.com"};window.__EMPLOYEE_MODE__=true;window.__TARGET_YM__="2026-08";</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>임금피크제 휴가계획서 취합 시스템</title>
+<style>
+  :root {
+    --bg: #f4f6fb; --card: #ffffff; --ink: #1f2937; --muted: #6b7280; --line: #e5e7eb;
+    --a: #2563eb; --a-bg: #e7efff;
+    --full: #2563eb; --full-bg: #e7efff;
+    --half: #059669; --half-bg: #e3f6ee;
+    --quarter: #d97706; --quarter-bg: #fdf0dc;
+    --off: #9ca3af; --off-bg: #f3f4f6;
+    --holiday: #dc2626; --holiday-bg: #fdeaea;
+    --sun: #dc2626; --sat: #2563eb;
+    --ok: #059669; --ok-bg: #e3f6ee; --warn: #dc2626; --warn-bg: #fdeaea;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", -apple-system, sans-serif;
+    background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 26px 18px 64px; }
+
+  header.page { text-align: center; margin-bottom: 18px; }
+  header.page .sub { color: var(--muted); font-size: 13px; letter-spacing: .05em; }
+  header.page h1 { margin: 6px 0 0; font-size: clamp(20px, 3.6vw, 30px); font-weight: 800; }
+  header.page h1 span { color: var(--a); }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(17,24,39,.06); overflow: hidden;
+  }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 8px; justify-content: center; margin: 16px 0 18px; flex-wrap: wrap; }
+  .tab {
+    border: 1px solid var(--line); background: #fff; color: var(--muted);
+    padding: 10px 20px; border-radius: 999px; font: inherit; font-weight: 700; cursor: pointer;
+    font-size: 14px; transition: .15s;
+  }
+  .tab.active { background: var(--a); color: #fff; border-color: var(--a); }
+
+  .section { padding: 20px 22px; }
+  .section h2 { margin: 0 0 14px; font-size: 16px; font-weight: 800; }
+  .section h2 .hint { font-size: 12.5px; font-weight: 600; color: var(--muted); margin-left: 8px; }
+
+  .ctrl-grid { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  select, input[type="text"], input[type="number"], input[type="date"] {
+    font: inherit; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--ink);
+  }
+  select { min-width: 130px; cursor: pointer; }
+
+  button.btn {
+    font: inherit; font-weight: 700; cursor: pointer; border-radius: 9px; padding: 9px 16px;
+    border: 1px solid var(--a); background: var(--a); color: #fff; transition: .15s;
+  }
+  button.btn.ghost { background: #fff; color: var(--a); }
+  button.btn.gray { background: #fff; color: var(--muted); border-color: var(--line); }
+  button.btn:hover { opacity: .9; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+
+  /* Tables */
+  table.grid { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.grid th, table.grid td { border: 1px solid var(--line); padding: 9px 10px; text-align: center; }
+  table.grid th { background: #fbfcfe; font-weight: 700; }
+  table.grid td.left { text-align: left; }
+  table.grid input { width: 100%; border: 1px solid transparent; background: transparent; text-align: center; font: inherit; padding: 5px; border-radius: 6px; }
+  table.grid input:focus { border-color: var(--a); background: #fff; outline: none; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; }
+  .pill.ok { color: var(--ok); background: var(--ok-bg); }
+  .pill.no { color: var(--warn); background: var(--warn-bg); }
+  .pill.over { color: var(--warn); background: var(--warn-bg); }
+
+  .row-del { cursor: pointer; border: none; background: var(--holiday-bg); color: var(--holiday); border-radius: 7px; padding: 6px 10px; font-weight: 800; }
+
+  /* Calendar */
+  table.cal { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  table.cal thead th { padding: 11px 0; font-size: 13.5px; font-weight: 700; border-bottom: 2px solid var(--line); background: #fbfcfe; }
+  table.cal thead th.sun { color: var(--sun); }
+  table.cal thead th.sat { color: var(--sat); }
+  table.cal td { border: 1px solid var(--line); vertical-align: top; height: 92px; padding: 6px; position: relative; }
+  table.cal td.empty { background: #fafbfc; }
+  table.cal td.day { cursor: pointer; transition: background .12s; }
+  table.cal td.day:hover { background: #f5f8ff; }
+  .daynum { font-size: 13.5px; font-weight: 700; }
+  td.sun .daynum, td.holiday .daynum { color: var(--sun); }
+  td.sat .daynum { color: var(--sat); }
+  td.off { background: #fafbfc; cursor: default; }
+  td.holiday { background: var(--holiday-bg); cursor: default; }
+  .holiday-name { font-size: 10.5px; color: var(--holiday); margin-top: 2px; font-weight: 600; line-height: 1.15; }
+  .mark {
+    display: inline-flex; align-items: center; justify-content: center; margin-top: 8px;
+    min-width: 56px; padding: 5px 8px; border-radius: 8px; font-size: 13px; font-weight: 800; gap: 4px;
+  }
+  .mark.full { color: var(--full); background: var(--full-bg); }
+  .mark.half { color: var(--half); background: var(--half-bg); }
+  .mark.quarter { color: var(--quarter); background: var(--quarter-bg); }
+  td.full { background: linear-gradient(180deg, rgba(37,99,235,.05), transparent); }
+  td.half { background: linear-gradient(180deg, rgba(5,150,105,.05), transparent); }
+  td.quarter { background: linear-gradient(180deg, rgba(217,119,6,.05), transparent); }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 16px; }
+  .stat { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: #fbfcfe; }
+  .stat .label { font-size: 12px; color: var(--muted); }
+  .stat .value { font-size: 23px; font-weight: 800; margin-top: 3px; }
+  .stat.grant .value { color: var(--ink); }
+  .stat.used .value { color: var(--full); }
+  .stat.remain .value { color: var(--ok); }
+  .stat.remain.neg .value { color: var(--warn); }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; align-items: center; }
+  .legend .chip { display: inline-flex; align-items: center; justify-content: center; min-width: 50px; padding: 4px 8px; border-radius: 7px; font-weight: 800; margin-right: 6px; font-size: 12px; }
+  .chip.full { color: var(--full); background: var(--full-bg); }
+  .chip.half { color: var(--half); background: var(--half-bg); }
+  .chip.quarter { color: var(--quarter); background: var(--quarter-bg); }
+  .chip.hol { color: var(--holiday); background: var(--holiday-bg); }
+
+  .note-box { margin-top: 14px; }
+  .note-box textarea { width: 100%; min-height: 60px; font: inherit; padding: 10px; border: 1px solid var(--line); border-radius: 9px; resize: vertical; }
+
+  .empty-msg { text-align: center; color: var(--muted); padding: 40px 20px; font-size: 14px; line-height: 1.6; }
+  .info-line { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+  .badge-status { font-size: 12.5px; font-weight: 700; }
+
+  details.sub { margin-top: 16px; border: 1px solid var(--line); border-radius: 12px; }
+  details.sub > summary { cursor: pointer; padding: 14px 16px; font-weight: 800; font-size: 14px; list-style: none; display: flex; justify-content: space-between; }
+  details.sub > summary::-webkit-details-marker { display: none; }
+  details.sub .body { padding: 0 16px 16px; }
+
+  footer.note { text-align: center; color: var(--muted); font-size: 12px; margin-top: 22px; line-height: 1.6; }
+
+  /* ===== Print form (원본 양식 재현) ===== */
+  #printForm { display: none; }
+  @media print {
+    body { background: #fff; }
+    .wrap > *:not(#printForm) { display: none !important; }
+    #printForm { display: block !important; }
+    @page { size: A4; margin: 14mm; }
+  }
+  #printForm { color: #000; font-size: 12px; }
+  #printForm .pf-title { text-align: center; font-size: 20px; font-weight: 800; letter-spacing: .3em; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 3px solid #000; }
+  #printForm .pf-guide { font-size: 11.5px; line-height: 1.7; margin-bottom: 12px; }
+  #printForm .pf-guide .warn { color: #c00; font-weight: 700; }
+  #printForm table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+  #printForm th, #printForm td { border: 1px solid #000; padding: 5px 6px; text-align: center; font-size: 11.5px; }
+  #printForm th { background: #f0f0f0; }
+  #printForm .pf-cal td { height: 46px; vertical-align: top; }
+  #printForm .pf-cal .dn { font-weight: 700; font-size: 11px; }
+  #printForm .pf-cal .hol { background: #fde0e0; }
+  #printForm .pf-cal .hol .dn, #printForm .pf-cal .sun .dn { color: #c00; }
+  #printForm .pf-cal .mk { font-size: 15px; font-weight: 800; margin-top: 4px; }
+  #printForm .pf-foot { text-align: center; margin-top: 22px; line-height: 2.4; font-size: 13px; }
+  #printForm .pf-sign { text-align: right; margin-top: 8px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page">
+    <div class="sub">SINOKOR · 총무팀</div>
+    <h1>임금피크제 <span>휴가계획서</span> 취합 시스템</h1>
+  </header>
+
+  <div class="tabs">
+    <button class="tab" data-tab="write">📝 휴가계획서 작성</button>
+    <button class="tab" data-tab="collect">📊 월별 취합 현황</button>
+    <button class="tab active" data-tab="setup">⚙️ 대상자·기준 설정</button>
+  </div>
+
+  <!-- ============ 작성 탭 ============ -->
+  <div class="card section" id="tab-write" style="display: none;">
+    <div class="ctrl-grid">
+      <div class="field">
+        <label>대상자</label>
+        <select id="w-member"><option value="">— 대상자 선택 —</option><option value="m0gusang1">구상욱 부장</option><option value="m0kimchl2">김철 부장</option><option value="m0parksu3">박성수 부장</option><option value="m0parkjh4">박재홍 부장</option><option value="m0leesh05">이승현 부장</option><option value="m0janghw6">장희원 부장</option><option value="m0jeongw7">전광욱 부장</option><option value="m0jeonsh8">전성현 부장대우</option><option value="m0kimsj10">김상준 차장</option></select>
+      </div>
+      <div class="field">
+        <label>대상 연월</label>
+        <input type="month" id="w-month">
+      </div>
+      <div class="field" style="flex:1; min-width:200px;">
+        <label>적용 정보</label>
+        <div id="w-info" class="info-line" style="margin-top:0;">대상자를 선택하세요.</div>
+      </div>
+    </div>
+
+    <div id="w-calwrap" style="margin-top:18px;"><div class="empty-msg">대상자와 대상 연월을 선택하면 휴가 달력이 나타납니다.</div></div>
+
+    <div class="legend" id="w-legend" style="display:none;">
+      <span><span class="chip full">○ 종일</span>1일</span>
+      <span><span class="chip half">△ 반차</span>0.5일</span>
+      <span><span class="chip quarter">▽ 반반차</span>0.25일</span>
+      <span><span class="chip hol">휴무</span>주말·공휴일</span>
+      <span style="color:var(--muted);">날짜 칸을 클릭하면 종일→반차→반반차→해제 순으로 바뀝니다.</span>
+    </div>
+
+    <div class="stats" id="w-stats" style="display:none;">
+      <div class="stat grant"><div class="label">이달 부여휴가</div><div class="value" id="s-grant">-</div></div>
+      <div class="stat used"><div class="label">이달 사용</div><div class="value" id="s-used">-</div></div>
+      <div class="stat remain"><div class="label">이달 잔여</div><div class="value" id="s-remain">-</div></div>
+      <div class="stat"><div class="label">누적 잔여(올해)</div><div class="value" id="s-cum">-</div></div>
+    </div>
+
+    <div class="note-box" id="w-notewrap" style="display:none;">
+      <label style="font-size:12.5px;color:var(--muted);font-weight:600;">비고 (특이사항)</label>
+      <textarea id="w-note" placeholder="예: 6/15 오전 반차 (병원)"></textarea>
+    </div>
+
+    <div id="w-ackwrap" style="display:none; margin-top:16px; padding:14px 16px; border:2px solid var(--warn); border-radius:12px; background:var(--warn-bg);">
+      <p style="margin:0; font-size:13.5px; font-weight:700; color:var(--warn); line-height:1.6;">
+        * 미사용 휴가는 자연 소멸되오니 부여된 휴가를 반드시 사용하시기 바랍니다.
+      </p>
+      <label style="display:inline-flex; align-items:center; gap:8px; margin-top:10px; cursor:pointer; font-size:13.5px; font-weight:700; color:var(--ink);">
+        <input type="checkbox" id="w-ack" style="width:18px; height:18px; cursor:pointer;">
+        위 내용을 확인하였습니다.
+      </label>
+    </div>
+
+    <div class="toolbar" id="w-toolbar" style="display:none;">
+      <button class="btn" id="w-save">💾 저장</button>
+      <button class="btn ghost" id="w-print">🖨️ 원본양식 인쇄/PDF</button>
+      <button class="btn gray" id="w-export">📤 제출파일 내보내기</button>
+      <span id="w-status" class="info-line" style="margin:0; align-self:center;"></span>
+    </div>
+  </div>
+
+  <!-- ============ 취합 탭 ============ -->
+  <div class="card section" id="tab-collect" style="display:none;">
+    <h2>월별 취합 현황 <span class="hint">대상자가 제출한 휴가계획을 한눈에 집계합니다.</span></h2>
+    <div class="ctrl-grid">
+      <div class="field">
+        <label>대상 연월</label>
+        <input type="month" id="c-month">
+      </div>
+      <div class="field" style="align-self:flex-end;">
+        <label>&nbsp;</label>
+        <div style="display:flex; gap:10px;">
+          <button class="btn gray" id="c-import">📥 제출파일 가져오기</button>
+          <button class="btn ghost" id="c-csv">📄 엑셀(CSV) 내보내기</button>
+          <button class="btn ghost" id="c-print">🖨️ 취합표 인쇄</button>
+        </div>
+      </div>
+    </div>
+    <input type="file" id="c-file" accept=".json,application/json" style="display:none;">
+    <div id="c-table" style="margin-top:18px;"></div>
+    <div id="c-detail" style="margin-top:20px;"></div>
+  </div>
+
+  <!-- ============ 설정 탭 ============ -->
+  <div class="card section" id="tab-setup" style="">
+    <h2>① 년차별 월 부여휴가일수 <span class="hint">회사 기준표를 입력하세요. (감소된 급여만큼 부여)</span></h2>
+    <table class="grid" id="grant-table" style="max-width:760px;">
+      <thead><tr><th>구분</th><th>1년차</th><th>2년차</th><th>3년차</th><th>4년차</th><th>5년차</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>월 부여휴가일수</td>
+          <td><input type="number" step="0.25" min="0" data-grant="1"></td>
+          <td><input type="number" step="0.25" min="0" data-grant="2"></td>
+          <td><input type="number" step="0.25" min="0" data-grant="3"></td>
+          <td><input type="number" step="0.25" min="0" data-grant="4"></td>
+          <td><input type="number" step="0.25" min="0" data-grant="5"></td>
+        </tr>
+        <tr>
+          <td>적용임금(전년대비)</td>
+          <td colspan="5"><div style="display:flex;gap:8px;align-items:center;justify-content:center;">전년 연봉 대비 <input type="number" step="1" min="0" max="100" id="wage-rate" style="width:80px;"> % 적용 (매년 4% 감소 → 96%)</div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top:26px;">② 임금피크제 대상자 명단 <span class="hint">적용시작일 기준으로 현재 년차가 자동 계산됩니다.</span></h2>
+    <table class="grid" id="member-table">
+      <thead><tr><th style="width:96px;">성명</th><th style="width:80px;">직급</th><th style="width:190px;">이메일</th><th style="width:132px;">적용시작일(1년차)</th><th style="width:78px;">현재 년차</th><th style="width:66px;">맞춤기준</th><th>부여휴가(사용필요) / 비고</th><th style="width:44px;">삭제</th></tr></thead>
+      <tbody id="member-body"><tr>
+      <td><input type="text" data-f="name" value="구상욱" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="부장" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="swkoo@heungaline.com" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2024-01-01"></td>
+      <td>3년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 3.25일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr><tr>
+      <td><input type="text" data-f="name" value="김철" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="부장" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="youngkim@heungaline.com" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2025-05-01"></td>
+      <td>2년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 2.25일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr><tr>
+      <td><input type="text" data-f="name" value="박성수" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="부장" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="parkss11@sinokor.co.kr" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2025-11-01"></td>
+      <td>1년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 1.25일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr><tr>
+      <td><input type="text" data-f="name" value="박재홍" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="부장" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="jhopark@heungaline.com" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2024-02-01"></td>
+      <td>3년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 3.25일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr><tr>
+      <td><input type="text" data-f="name" value="이승현" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="부장" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="shyiii@sinokor.co.kr" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2024-01-01"></td>
+      <td>3년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 3.25일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr><tr>
+      <td><input type="text" data-f="name" value="장희원" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="부장" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="jjang@sinokor.co.kr" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2026-06-01"></td>
+      <td>1년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 1.25일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr><tr>
+      <td><input type="text" data-f="name" value="전광욱" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="부장" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="kujeon@sinokor.co.kr" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2025-06-01"></td>
+      <td>2년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 2.25일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr><tr>
+      <td><input type="text" data-f="name" value="전성현" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="부장대우" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="sh.jeon@sinokor.co.kr" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2026-05-01"></td>
+      <td>1년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 1.25일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr><tr>
+      <td><input type="text" data-f="name" value="김상준" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="차장" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="sjunkim@heungaline.com" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="2023-01-01"></td>
+      <td>4년차</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);"><input type="checkbox" class="m-custom" style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">월 4일 사용</div>
+        <input type="text" data-f="memo" value="" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td></tr></tbody>
+    </table>
+    <div class="toolbar">
+      <button class="btn ghost" id="add-member">＋ 대상자 추가</button>
+    </div>
+
+    <details class="sub" id="holiday-section">
+      <summary><span>③ 공휴일·휴무일 관리</span><span style="color:var(--muted);">▾</span></summary>
+      <div class="body">
+        <p class="info-line" style="margin-top:6px;">달력에 빨간색(휴무)으로 표시됩니다. 주말(토·일)은 자동 휴무 처리됩니다. 기본값은 2025~2026 법정공휴일입니다.</p>
+        <div id="holiday-list"><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-01-01" style="width:160px;">
+      <input type="text" value="신정" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-01-27" style="width:160px;">
+      <input type="text" value="설날연휴" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-01-28" style="width:160px;">
+      <input type="text" value="설날" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-01-29" style="width:160px;">
+      <input type="text" value="설날" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-01-30" style="width:160px;">
+      <input type="text" value="설날연휴" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-03-03" style="width:160px;">
+      <input type="text" value="삼일절(대체)" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-05-05" style="width:160px;">
+      <input type="text" value="어린이날·부처님오신날" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-05-06" style="width:160px;">
+      <input type="text" value="대체공휴일" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-06-06" style="width:160px;">
+      <input type="text" value="현충일" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-08-15" style="width:160px;">
+      <input type="text" value="광복절" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-10-03" style="width:160px;">
+      <input type="text" value="개천절" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-10-05" style="width:160px;">
+      <input type="text" value="추석연휴" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-10-06" style="width:160px;">
+      <input type="text" value="추석" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-10-07" style="width:160px;">
+      <input type="text" value="추석연휴" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-10-08" style="width:160px;">
+      <input type="text" value="대체공휴일" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-10-09" style="width:160px;">
+      <input type="text" value="한글날" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2025-12-25" style="width:160px;">
+      <input type="text" value="성탄절" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-01-01" style="width:160px;">
+      <input type="text" value="신정" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-02-16" style="width:160px;">
+      <input type="text" value="설날연휴" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-02-17" style="width:160px;">
+      <input type="text" value="설날" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-02-18" style="width:160px;">
+      <input type="text" value="설날연휴" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-03-01" style="width:160px;">
+      <input type="text" value="삼일절" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-03-02" style="width:160px;">
+      <input type="text" value="대체공휴일" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-05-05" style="width:160px;">
+      <input type="text" value="어린이날" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-05-24" style="width:160px;">
+      <input type="text" value="부처님오신날" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-05-25" style="width:160px;">
+      <input type="text" value="대체공휴일" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-06-06" style="width:160px;">
+      <input type="text" value="현충일" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-08-15" style="width:160px;">
+      <input type="text" value="광복절" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-09-24" style="width:160px;">
+      <input type="text" value="추석연휴" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-09-25" style="width:160px;">
+      <input type="text" value="추석" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-09-26" style="width:160px;">
+      <input type="text" value="추석연휴" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-10-03" style="width:160px;">
+      <input type="text" value="개천절" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-10-09" style="width:160px;">
+      <input type="text" value="한글날" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div><div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+      <input type="date" value="2026-12-25" style="width:160px;">
+      <input type="text" value="성탄절" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button></div></div>
+        <div class="toolbar"><button class="btn ghost" id="add-holiday">＋ 공휴일 추가</button></div>
+      </div>
+    </details>
+
+    <div class="toolbar" style="margin-top:22px;">
+      <button class="btn" id="save-setup">💾 설정 저장</button>
+      <button class="btn gray" id="export-all">📦 전체 데이터 백업</button>
+      <button class="btn gray" id="import-all">📂 백업 복원</button>
+      <input type="file" id="all-file" accept=".json,application/json" style="display:none;">
+      <span id="setup-status" class="info-line" style="margin:0; align-self:center;"></span>
+    </div>
+
+    <div style="margin-top:24px; padding:16px 18px; border:1px solid var(--a); border-radius:12px; background:#f5f8ff;">
+      <div style="font-weight:800; font-size:15px; margin-bottom:6px;">📢 ④ 공유 명단 게시 — 대상자에게 명단 보이기</div>
+      <p class="info-line" style="margin-top:0;">
+        명단·기준을 <b>💾 설정 저장</b>한 뒤, 아래 버튼으로 <b>config.json</b> 파일을 내려받아 배포에 올리면(게시)
+        그때부터 <b>모든 대상자가 링크 접속 시 명단을 보고 본인을 선택</b>할 수 있습니다.
+        올리는 방법은 사용안내서를 참고하세요. (명단이 바뀌면 다시 게시)
+      </p>
+      <div class="toolbar" style="margin-top:10px;">
+        <button class="btn" id="publish-config">📢 공유 명단 게시 파일 내보내기</button>
+        <span id="publish-status" class="info-line" style="margin:0; align-self:center;"></span>
+      </div>
+      <p class="info-line" id="cfg-state" style="margin-top:10px;">현재 게시된 공유 명단: <b>2026-06-08 10:00</b> 기준 (대상자 10명)</p>
+    </div>
+
+    <div style="margin-top:18px; padding:16px 18px; border:2px solid var(--half); border-radius:12px; background:#f1fbf6;">
+      <div style="font-weight:800; font-size:15px; margin-bottom:6px;">📨 ⑤ 대상자용 파일 만들기 — 직원에게 배포 (서버 없이 더블클릭용)</div>
+      <p class="info-line" style="margin-top:0;">
+        지금 설정한 <b>명단·년차별 휴가기준·맞춤기준·공휴일</b>이 통째로 담긴 <b>HTML 파일 1개</b>를 내려받습니다.
+        이 파일을 메일·그룹웨어로 직원에게 보내면, 직원은 파일을 <b>더블클릭</b>해서 바로
+        <b>본인 휴가계획을 조회·작성·제출</b>할 수 있습니다. (직원 화면에는 <b>작성 탭만</b> 보이고 설정·취합은 숨겨집니다)
+      </p>
+      <div class="ctrl-grid" style="margin-top:10px; align-items:flex-end;">
+        <div class="field">
+          <label>작성 대상 월 <span style="color:var(--muted);font-weight:600;">(직원은 이 달만 작성)</span></label>
+          <input type="month" id="emp-target-month">
+        </div>
+        <div class="field" style="min-width:230px;">
+          <label>제출 받을 메일(총무팀) <span style="color:var(--muted);font-weight:600;">(직원 제출 메일 받는사람)</span></label>
+          <input type="text" id="submit-email" placeholder="totomu@sinokor.co.kr">
+        </div>
+        <button class="btn" id="make-employee-file" style="border-color:var(--half); background:var(--half);">📨 대상자용 파일 만들기</button>
+        <span id="employee-file-status" class="info-line" style="margin:0; align-self:center;"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 인쇄용 원본 양식 ============ -->
+  <div id="printForm"></div>
+
+  <footer class="note">
+    임금피크제 휴가계획서 취합 시스템 · 데이터는 이 브라우저(localStorage)에 저장됩니다.<br>
+    대상자 본인이 작성·제출파일 내보내기 → 총무팀이 취합 탭에서 가져오기로 통합 집계합니다.
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   데이터 모델 (localStorage)
+============================================================ */
+const STORE_KEY = "ipgeun_vacation_v1";
+const DEFAULT_HOLIDAYS = {
+  "2025-01-01":"신정","2025-01-27":"설날연휴","2025-01-28":"설날","2025-01-29":"설날","2025-01-30":"설날연휴",
+  "2025-03-03":"삼일절(대체)","2025-05-05":"어린이날·부처님오신날","2025-05-06":"대체공휴일","2025-06-06":"현충일",
+  "2025-08-15":"광복절","2025-10-03":"개천절","2025-10-05":"추석연휴","2025-10-06":"추석","2025-10-07":"추석연휴",
+  "2025-10-08":"대체공휴일","2025-10-09":"한글날","2025-12-25":"성탄절",
+  "2026-01-01":"신정","2026-02-16":"설날연휴","2026-02-17":"설날","2026-02-18":"설날연휴",
+  "2026-03-01":"삼일절","2026-03-02":"대체공휴일","2026-05-05":"어린이날","2026-05-24":"부처님오신날","2026-05-25":"대체공휴일",
+  "2026-06-06":"현충일","2026-08-15":"광복절","2026-09-24":"추석연휴","2026-09-25":"추석","2026-09-26":"추석연휴",
+  "2026-10-03":"개천절","2026-10-09":"한글날","2026-12-25":"성탄절"
+};
+function defaultData(){
+  return {
+    grant: {1:1.25, 2:2.25, 3:3.25, 4:4, 5:5},
+    wageRate: 96,
+    members: [],
+    holidays: {...DEFAULT_HOLIDAYS},
+    submitEmail: "sungjin@sinokor.co.kr",   // 직원 제출 메일의 받는사람(총무팀)
+    plans: {} // plans[memberId][ym] = {days:{1:'full'...}, note, submittedAt}
+  };
+}
+let DATA = load();
+function load(){
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return defaultData();
+    const d = JSON.parse(raw);
+    return Object.assign(defaultData(), d);
+  } catch(e){ return defaultData(); }
+}
+function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(DATA)); }
+function uid(){ return 'm' + Array.from({length:8},()=>Math.floor(Math.random()*36).toString(36)).join(''); }
+
+/* ============================================================
+   유틸
+============================================================ */
+const WEEK = ["일","월","화","수","목","금","토"];
+function pad(n){ return String(n).padStart(2,"0"); }
+function ymKey(y,m){ return y + "-" + pad(m); }
+function todayYM(){ const d=new Date(); return ymKey(d.getFullYear(), d.getMonth()+1); }
+function dateKey(y,m,d){ return y+"-"+pad(m)+"-"+pad(d); }
+function parseYM(s){ const [y,m]=s.split("-").map(Number); return {y,m}; }
+function isHoliday(y,m,d){ return DATA.holidays[dateKey(y,m,d)]; }
+function dayValue(t){ return t==='full'?1 : t==='half'?0.5 : t==='quarter'?0.25 : 0; }
+function markSymbol(t){ return t==='full'?'○' : t==='half'?'△' : t==='quarter'?'▽' : ''; }
+function markLabel(t){ return t==='full'?'종일' : t==='half'?'반차' : t==='quarter'?'반반차' : ''; }
+
+// 적용시작일과 대상 연월로 현재 년차(1~5, 범위밖이면 0) 계산
+function getYearN(startDate, y, m){
+  if(!startDate) return 0;
+  const s = new Date(startDate);
+  if(isNaN(s)) return 0;
+  const startMonths = s.getFullYear()*12 + s.getMonth();
+  const tgtMonths = y*12 + (m-1);
+  const diff = tgtMonths - startMonths; // 개월수
+  if(diff < 0) return 0;
+  const n = Math.floor(diff/12) + 1;
+  return (n>=1 && n<=5) ? n : (n>5 ? 0 : 0);
+}
+function memberById(id){ return DATA.members.find(x=>x.id===id); }
+// 해당 대상자의 n년차 월 부여휴가 — 본인 맞춤기준이 있으면 그것을, 없으면 회사 공통표를 사용
+function grantFor(mb, n){
+  if(!(n>=1 && n<=5)) return 0;
+  if(mb && mb.grant){
+    const v = mb.grant[n];
+    if(v!=='' && v!=null && !isNaN(parseFloat(v))) return parseFloat(v);
+  }
+  return DATA.grant[n] || 0;
+}
+function hasCustomGrant(mb){ return !!(mb && mb.grant && Object.keys(mb.grant).length); }
+
+/* ============================================================
+   탭 전환
+============================================================ */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const name = t.dataset.tab;
+    document.getElementById('tab-write').style.display  = name==='write'   ? '' : 'none';
+    document.getElementById('tab-collect').style.display= name==='collect' ? '' : 'none';
+    document.getElementById('tab-setup').style.display  = name==='setup'   ? '' : 'none';
+    if(name==='collect') renderCollect();
+    if(name==='write') refreshWriteMembers();
+  });
+});
+
+/* ============================================================
+   설정 탭
+============================================================ */
+function loadSetupUI(){
+  for(let n=1;n<=5;n++){
+    document.querySelector(`[data-grant="${n}"]`).value = DATA.grant[n] ?? '';
+  }
+  document.getElementById('wage-rate').value = DATA.wageRate;
+  const emt = document.getElementById('emp-target-month');
+  if(emt && !emt.value) emt.value = todayYM();   // 작성 대상 월 기본값(이번 달)
+  const se = document.getElementById('submit-email');
+  if(se) se.value = DATA.submitEmail || '';      // 제출 받을 메일
+  renderMemberRows();
+  renderHolidayRows();
+}
+function renderMemberRows(){
+  const body = document.getElementById('member-body');
+  if(!body) return;   // 대상자용 파일에는 설정 표가 없음
+  body.innerHTML = '';
+  const tym = parseYM(document.getElementById('w-month')?.value || todayYM());
+  DATA.members.forEach(mb=>{
+    const tr = document.createElement('tr');
+    const n = getYearN(mb.startDate, tym.y, tym.m);
+    const yearTxt = mb.startDate ? (n>=1&&n<=5 ? `${n}년차` : (n===0 ? '대상기간 외' : '-')) : '-';
+    const custom = hasCustomGrant(mb);
+    const grantTxt = (n>=1&&n<=5)
+      ? `월 ${fmt(grantFor(mb,n))}일 사용${custom?' <span style="color:var(--quarter);font-weight:800;">(맞춤)</span>':''}`
+      : '-';
+    tr.innerHTML = `
+      <td><input type="text" data-f="name" value="${esc(mb.name||'')}" placeholder="홍길동"></td>
+      <td><input type="text" data-f="rank" value="${esc(mb.rank||'')}" placeholder="부장"></td>
+      <td><input type="text" data-f="email" value="${esc(mb.email||'')}" placeholder="name@sinokor.co.kr"></td>
+      <td><input type="date" data-f="startDate" value="${esc(mb.startDate||'')}"></td>
+      <td>${yearTxt}</td>
+      <td><label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;font-weight:700;color:${custom?'var(--quarter)':'var(--muted)'};"><input type="checkbox" class="m-custom" ${custom?'checked':''} style="width:16px;height:16px;cursor:pointer;">맞춤</label></td>
+      <td class="left">
+        <div style="font-weight:800;color:var(--a);font-size:13px;margin-bottom:4px;">${grantTxt}</div>
+        <input type="text" data-f="memo" value="${esc(mb.memo||'')}" placeholder="메모(선택)">
+      </td>
+      <td><button class="row-del">✕</button></td>`;
+    tr.querySelectorAll('input[data-f]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{ mb[inp.dataset.f] = inp.value; });
+      inp.addEventListener('change', ()=>{ mb[inp.dataset.f] = inp.value; save(); renderMemberRows(); });
+    });
+    tr.querySelector('.m-custom').addEventListener('change', e=>{
+      if(e.target.checked){ mb.grant = {}; for(let k=1;k<=5;k++) mb.grant[k] = DATA.grant[k]||0; }
+      else { delete mb.grant; }
+      save(); renderMemberRows();
+    });
+    tr.querySelector('.row-del').addEventListener('click', ()=>{
+      if(confirm(`${mb.name||'이 대상자'}을(를) 삭제할까요? 제출된 휴가계획도 함께 삭제됩니다.`)){
+        DATA.members = DATA.members.filter(x=>x.id!==mb.id);
+        delete DATA.plans[mb.id];
+        save(); renderMemberRows();
+      }
+    });
+    body.appendChild(tr);
+
+    // 맞춤기준이 켜진 대상자: 1~5년차 입력칸을 아래에 펼쳐서 표시
+    if(custom){
+      const tr2 = document.createElement('tr');
+      tr2.className = 'custom-grant-row';
+      const cells = [1,2,3,4,5].map(k=>`
+        <label style="display:inline-flex;flex-direction:column;align-items:center;gap:4px;font-size:11.5px;color:var(--muted);font-weight:700;">
+          ${k}년차
+          <input type="number" step="0.25" min="0" data-cg="${k}" value="${mb.grant[k]??''}" style="width:66px;text-align:center;">
+        </label>`).join('');
+      tr2.innerHTML = `<td colspan="8" style="background:#fdf0dc;border-top:none;padding:12px 16px;">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <b style="font-size:12.5px;color:var(--quarter);">↳ ${esc(mb.name||'이 대상자')} 맞춤 월 부여휴가</b>
+          ${cells}
+          <button class="btn gray reset-grant" style="padding:6px 12px;">회사기준으로 되돌리기</button>
+        </div>
+      </td>`;
+      tr2.querySelectorAll('input[data-cg]').forEach(inp=>{
+        inp.addEventListener('input', ()=>{ mb.grant[inp.dataset.cg] = inp.value; });
+        inp.addEventListener('change', ()=>{ const v=parseFloat(inp.value); mb.grant[inp.dataset.cg] = isNaN(v)?0:v; save(); renderMemberRows(); });
+      });
+      tr2.querySelector('.reset-grant').addEventListener('click', ()=>{ delete mb.grant; save(); renderMemberRows(); });
+      body.appendChild(tr2);
+    }
+  });
+  if(DATA.members.length===0){
+    body.innerHTML = `<tr><td colspan="8" class="empty-msg" style="padding:24px;">대상자를 추가하세요.</td></tr>`;
+  }
+}
+document.getElementById('add-member').addEventListener('click', ()=>{
+  DATA.members.push({id:uid(), name:'', rank:'', startDate:'', memo:''});
+  renderMemberRows();
+});
+
+function renderHolidayRows(){
+  const wrap = document.getElementById('holiday-list');
+  wrap.innerHTML = '';
+  const entries = Object.entries(DATA.holidays).sort((a,b)=>a[0]<b[0]?-1:1);
+  entries.forEach(([date,name])=>{
+    const div = document.createElement('div');
+    div.style.cssText = "display:flex;gap:8px;align-items:center;margin-bottom:8px;";
+    div.innerHTML = `
+      <input type="date" value="${date}" style="width:160px;">
+      <input type="text" value="${esc(name)}" placeholder="공휴일명" style="flex:1;">
+      <button class="row-del">✕</button>`;
+    const [dInp,nInp] = div.querySelectorAll('input');
+    const del = div.querySelector('.row-del');
+    function update(){ delete DATA.holidays[date]; date = dInp.value; if(date) DATA.holidays[date]=nInp.value; }
+    dInp.addEventListener('change', update);
+    nInp.addEventListener('input', ()=>{ DATA.holidays[dInp.value]=nInp.value; });
+    del.addEventListener('click', ()=>{ delete DATA.holidays[dInp.value]; renderHolidayRows(); });
+    wrap.appendChild(div);
+  });
+}
+document.getElementById('add-holiday').addEventListener('click', ()=>{
+  const t = todayYM()+"-01";
+  if(!DATA.holidays[t]) DATA.holidays[t] = "";
+  renderHolidayRows();
+});
+
+document.getElementById('save-setup').addEventListener('click', ()=>{
+  for(let n=1;n<=5;n++){
+    const v = parseFloat(document.querySelector(`[data-grant="${n}"]`).value);
+    DATA.grant[n] = isNaN(v)?0:v;
+  }
+  DATA.wageRate = parseFloat(document.getElementById('wage-rate').value)||96;
+  DATA.submitEmail = (document.getElementById('submit-email').value||'').trim();
+  save();
+  setStatus('setup-status','✅ 저장되었습니다.');
+  refreshWriteMembers();
+});
+
+document.getElementById('export-all').addEventListener('click', ()=>{
+  download('임금피크제_전체데이터.json', JSON.stringify(DATA,null,2));
+});
+document.getElementById('import-all').addEventListener('click', ()=> document.getElementById('all-file').click());
+document.getElementById('all-file').addEventListener('change', e=>{
+  readJSON(e.target.files[0], obj=>{
+    if(!confirm('전체 데이터를 복원합니다. 현재 데이터를 덮어쓸까요?')) return;
+    DATA = Object.assign(defaultData(), obj); save();
+    loadSetupUI(); refreshWriteMembers();
+    setStatus('setup-status','✅ 복원되었습니다.');
+  });
+  e.target.value='';
+});
+
+/* ============================================================
+   작성 탭
+============================================================ */
+function refreshWriteMembers(){
+  const sel = document.getElementById('w-member');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— 대상자 선택 —</option>' +
+    DATA.members.filter(m=>m.name).map(m=>`<option value="${m.id}">${esc(m.name)} ${esc(m.rank||'')}</option>`).join('');
+  if(cur && memberById(cur)) sel.value = cur;
+  renderWrite();
+}
+const wMember = document.getElementById('w-member');
+const wMonth = document.getElementById('w-month');
+wMember.addEventListener('change', renderWrite);
+wMonth.addEventListener('change', ()=>{ renderMemberRows(); renderWrite(); });
+
+function currentPlan(id, ym, create){
+  if(!DATA.plans[id]) DATA.plans[id] = {};
+  if(!DATA.plans[id][ym] && create) DATA.plans[id][ym] = {days:{}, note:'', submittedAt:null};
+  return DATA.plans[id][ym];
+}
+
+function renderWrite(){
+  const id = wMember.value, ym = wMonth.value;
+  const calwrap = document.getElementById('w-calwrap');
+  const show = id && ym;
+  ['w-legend','w-stats','w-notewrap','w-ackwrap','w-toolbar'].forEach(k=>{
+    document.getElementById(k).style.display = show ? (k==='w-stats'?'grid':(k==='w-toolbar'||k==='w-legend'?'flex':'block')) : 'none';
+  });
+  if(!show){
+    calwrap.innerHTML = `<div class="empty-msg">대상자와 대상 연월을 선택하면 휴가 달력이 나타납니다.</div>`;
+    document.getElementById('w-info').textContent = id? '대상 연월을 선택하세요.' : '대상자를 선택하세요.';
+    return;
+  }
+  const mb = memberById(id);
+  const {y,m} = parseYM(ym);
+  const n = getYearN(mb.startDate, y, m);
+  const grant = (n>=1&&n<=5) ? grantFor(mb,n) : 0;
+
+  // 적용정보
+  let infoTxt;
+  if(n>=1 && n<=5){
+    infoTxt = `${esc(mb.rank||'')} ${esc(mb.name)} · <b>${n}년차</b> · 적용임금 전년대비 ${DATA.wageRate}% · 이달 부여 <b>${grant}일</b>`;
+  } else {
+    infoTxt = `<span style="color:var(--warn)">이 연월은 ${esc(mb.name)}님의 임금피크제 적용기간(1~5년차)에 해당하지 않습니다.</span>`;
+  }
+  document.getElementById('w-info').innerHTML = infoTxt;
+
+  const plan = currentPlan(id, ym, true);
+  calwrap.innerHTML = buildCalendar(y, m, plan.days, true);
+  document.getElementById('w-note').value = plan.note || '';
+  document.getElementById('w-ack').checked = !!plan.ack;
+
+  // 클릭 이벤트
+  calwrap.querySelectorAll('td.day').forEach(td=>{
+    td.addEventListener('click', ()=>{
+      const d = td.dataset.d;
+      const order = [undefined,'full','half','quarter'];
+      const cur = plan.days[d];
+      const idx = order.indexOf(cur);
+      const next = order[(idx+1)%order.length];
+      if(next) plan.days[d] = next; else delete plan.days[d];
+      renderWrite();
+    });
+  });
+  updateWriteStats(id, ym, grant, n);
+  document.getElementById('w-status').textContent = plan.submittedAt ? `최종저장: ${plan.submittedAt}` : '아직 저장 전';
+}
+
+function updateWriteStats(id, ym, grant, n){
+  const plan = currentPlan(id, ym, true);
+  const used = Object.values(plan.days).reduce((a,t)=>a+dayValue(t),0);
+  const remain = grant - used;
+  document.getElementById('s-grant').textContent = grant + '일';
+  document.getElementById('s-used').textContent = used + '일';
+  const remEl = document.getElementById('s-remain');
+  remEl.textContent = remain.toFixed(2).replace(/\.?0+$/,'') + '일';
+  remEl.parentElement.classList.toggle('neg', remain<0);
+
+  // 누적(올해, 1~현재월) 부여-사용
+  const {y,m} = parseYM(ym);
+  let cumGrant=0, cumUsed=0;
+  for(let mm=1; mm<=m; mm++){
+    const nn = getYearN(memberById(id).startDate, y, mm);
+    if(nn>=1&&nn<=5) cumGrant += grantFor(memberById(id), nn);
+    const p = DATA.plans[id]?.[ymKey(y,mm)];
+    if(p) cumUsed += Object.values(p.days).reduce((a,t)=>a+dayValue(t),0);
+  }
+  document.getElementById('s-cum').textContent = (cumGrant-cumUsed).toFixed(2).replace(/\.?0+$/,'') + '일';
+}
+
+function buildCalendar(y, m, days, interactive){
+  const first = new Date(y, m-1, 1);
+  const startW = first.getDay();
+  const lastDate = new Date(y, m, 0).getDate();
+  let html = '<table class="cal"><thead><tr>' +
+    WEEK.map((w,i)=>`<th class="${i===0?'sun':i===6?'sat':''}">${w}</th>`).join('') +
+    '</tr></thead><tbody><tr>';
+  let col = 0;
+  for(let i=0;i<startW;i++){ html+='<td class="empty"></td>'; col++; }
+  for(let d=1; d<=lastDate; d++){
+    if(col===7){ html+='</tr><tr>'; col=0; }
+    const w = new Date(y,m-1,d).getDay();
+    const hol = isHoliday(y,m,d);
+    const isOff = (w===0||w===6||hol);
+    const t = days[d];
+    const clickable = interactive && !isOff;
+    const classes = [];
+    if(clickable) classes.push('day');
+    if(hol) classes.push('holiday');
+    else if(isOff) classes.push('off');
+    if(w===0) classes.push('sun'); else if(w===6) classes.push('sat');
+    if(t && !isOff) classes.push(t);
+    html += `<td class="${classes.join(' ')}" ${clickable?`data-d="${d}"`:''}>`;
+    html += `<div class="daynum">${d}</div>`;
+    if(hol) html += `<div class="holiday-name">${esc(hol)}</div>`;
+    if(t && !isOff) html += `<div class="mark ${t}">${markSymbol(t)} ${markLabel(t)}</div>`;
+    html += `</td>`;
+    col++;
+  }
+  while(col<7){ html+='<td class="empty"></td>'; col++; }
+  html += '</tr></tbody></table>';
+  return html;
+}
+
+document.getElementById('w-note').addEventListener('input', e=>{
+  const id=wMember.value, ym=wMonth.value;
+  if(id&&ym) currentPlan(id,ym,true).note = e.target.value;
+});
+document.getElementById('w-ack').addEventListener('change', e=>{
+  const id=wMember.value, ym=wMonth.value;
+  if(id&&ym){ currentPlan(id,ym,true).ack = e.target.checked; save(); }
+});
+
+document.getElementById('w-save').addEventListener('click', ()=>{
+  const id=wMember.value, ym=wMonth.value;
+  if(!id||!ym) return;
+  const p = currentPlan(id,ym,true);
+  p.submittedAt = nowStr();
+  save();
+  document.getElementById('w-status').textContent = `✅ 저장됨 (${p.submittedAt})`;
+});
+
+document.getElementById('w-export').addEventListener('click', async ()=>{
+  const id=wMember.value, ym=wMonth.value;
+  if(!id||!ym) return;
+  if(!document.getElementById('w-ack').checked){
+    alert('“* 미사용 휴가는 자연 소멸되오니 부여된 휴가를 반드시 사용하시기 바랍니다.” 안내를 확인하신 뒤,\n‘위 내용을 확인하였습니다.’ 체크란에 체크해 주세요.');
+    return;
+  }
+  const mb = memberById(id);
+  const p = currentPlan(id,ym,true);
+  // 이달 부여휴가 일수와 사용일수 일치 검증 (불일치 시 제출 차단 → 재작성)
+  const _ym = parseYM(ym);
+  const _n = getYearN(mb.startDate, _ym.y, _ym.m);
+  const _grant = (_n>=1 && _n<=5) ? grantFor(mb, _n) : 0;
+  const _used = Object.values(p.days).reduce((a,t)=>a+dayValue(t),0);
+  if(Math.abs(_used - _grant) > 1e-9){
+    alert('휴가 일수가 일치하지 않습니다.\n\n· 이달 부여휴가: ' + fmt(_grant) + '일\n· 이달 사용: ' + fmt(_used) + '일\n\n부여휴가 일수에 맞게 다시 작성해 주세요.');
+    return;
+  }
+  p.ack = true;
+  p.submittedAt = p.submittedAt || nowStr();
+  save();
+  const payload = {
+    _type:"ipgeun_submission", member:{name:mb.name, rank:mb.rank, startDate:mb.startDate},
+    ym, plan:p
+  };
+  const fname = `휴가계획_${mb.name}_${ym}.json`;
+  const saved = await saveFile(fname, JSON.stringify(payload,null,2));
+  if(!saved){ document.getElementById('w-status').textContent = '저장이 취소되었습니다.'; return; }
+
+  // 제출파일 저장 후, 받는사람·제목·본문이 채워진 메일 작성창 자동 열기
+  // (브라우저 보안상 파일 자동첨부는 불가 → 본문에 '방금 저장한 파일 첨부' 안내)
+  const {y,m} = parseYM(ym);
+  const used = Object.values(p.days).reduce((a,t)=>a+dayValue(t),0);
+  const to = encodeURIComponent(DATA.submitEmail || '');
+  const subject = encodeURIComponent(`[임금피크제] ${mb.name} ${y}년 ${m}월 휴가 사용계획서 제출`);
+  const body = encodeURIComponent(
+    `총무팀 담당자님께,\n\n` +
+    `임금피크제 ${y}년 ${m}월 휴가 사용계획서를 제출합니다.\n` +
+    `· 성명: ${mb.name} ${mb.rank||''}\n` +
+    `· 대상: ${y}년 ${m}월 (이달 사용 ${fmt(used)}일)\n\n` +
+    `※ 방금 저장한 첨부파일 「${fname}」을(를) 이 메일에 첨부하여 보내 주세요.\n\n` +
+    `감사합니다.`
+  );
+  window.location.href = `mailto:${decodeURIComponent(to)}?subject=${subject}&body=${body}`;
+  document.getElementById('w-status').innerHTML =
+    `📤 제출파일을 저장했고, 메일 작성창을 열었습니다. <b>방금 저장한 파일 「${esc(fname)}」을 첨부</b>해 보내주세요.`;
+});
+
+document.getElementById('w-print').addEventListener('click', ()=>{
+  const id=wMember.value, ym=wMonth.value;
+  if(!id||!ym){ alert('대상자와 연월을 선택하세요.'); return; }
+  buildPrintForm(id, ym);
+  window.print();
+});
+
+/* ============================================================
+   인쇄용 원본 양식 생성
+============================================================ */
+function buildPrintForm(id, ym){
+  const mb = memberById(id);
+  const {y,m} = parseYM(ym);
+  const curN = getYearN(mb.startDate, y, m);
+  const plan = currentPlan(id, ym, true);
+  const used = Object.values(plan.days).reduce((a,t)=>a+dayValue(t),0);
+
+  // 대상자 정보표: 1년차부터 현재 년차까지
+  let infoRows = '';
+  const maxN = (curN>=1&&curN<=5)?curN:0;
+  const sDate = mb.startDate ? new Date(mb.startDate) : null;
+  for(let n=1; n<=Math.max(maxN, (maxN?maxN:0)); n++){
+    if(!maxN) break;
+    let applyDate = '';
+    if(sDate){ const dd=new Date(sDate); dd.setFullYear(dd.getFullYear()+(n-1)); applyDate = `${dd.getFullYear()}.${pad(dd.getMonth()+1)}.${pad(dd.getDate())}`; }
+    infoRows += `<tr>
+      ${n===1?`<td rowspan="${maxN}">${esc(mb.name||'')}</td><td rowspan="${maxN}">${esc(mb.rank||'')}</td><td rowspan="${maxN}">임금피크제 적용</td>`:''}
+      <td>${n}년차</td><td>전년대비 ${DATA.wageRate}%</td><td>${fmt(grantFor(mb,n))}일</td><td>${applyDate}</td>
+    </tr>`;
+  }
+  if(!infoRows){
+    infoRows = `<tr><td>${esc(mb.name||'')}</td><td>${esc(mb.rank||'')}</td><td>임금피크제 적용</td><td>-</td><td>전년대비 ${DATA.wageRate}%</td><td>-</td><td>-</td></tr>`;
+  }
+
+  // 달력
+  const calHtml = buildPrintCalendar(y, m, plan.days);
+
+  const html = `
+    <div class="pf-title">임금피크제 휴가 사용계획서</div>
+    <div class="pf-guide">
+      <b>- 작성방법</b><br>
+      ① 본인이 쉬고자 하는 날짜에 동그라미(○) 표시를, 반차·반반차는 세모(△·▽)를 표시하고 서명하여 제출 부탁드립니다.<br>
+      ② <span class="warn">빨간색</span>으로 표시된 부분은 휴무일(공휴일 등)을 의미합니다.<br>
+      ③ 본인의 임금피크제 휴가 사용일을 변경하고자 하는 직원은 사전(3일전)에 팀장 혹은 임원진을 통하여 확인 후 총무팀에 알려주시기 바랍니다.<br>
+      <span class="warn">※ 미사용 휴가에 대해 보상할 의무가 없사오니 반드시 부여된 휴가를 사용할 수 있도록 하시기 바랍니다.</span>
+    </div>
+    <table>
+      <thead><tr><th>성명</th><th>직급</th><th>내용</th><th>년차</th><th>적용임금</th><th>부여휴가일수(월)</th><th>적용일자</th></tr></thead>
+      <tbody>${infoRows}</tbody>
+    </table>
+    ${calHtml}
+    <div style="text-align:right; font-size:12px; margin-top:-8px;">이달 총 사용일수: <b>${used}일</b> / 부여 ${maxN?fmt(grantFor(mb,curN)):0}일</div>
+    <div class="pf-foot">상기인은 임금피크제 제도에 의거 휴가사용계획서를 제출합니다.</div>
+    <div class="pf-foot" style="margin-top:4px;">${y}년 &nbsp;&nbsp; ${m}월 &nbsp;&nbsp; 1일</div>
+    <div class="pf-sign">작성 : ${esc(mb.name||'')} (인)</div>
+  `;
+  document.getElementById('printForm').innerHTML = html;
+}
+
+function buildPrintCalendar(y, m, days){
+  const first = new Date(y, m-1, 1);
+  const startW = first.getDay();
+  const lastDate = new Date(y, m, 0).getDate();
+  let rows = '', col=0, week='';
+  function flush(){ rows += '<tr><td style="font-weight:700;background:#f0f0f0;">'+m+'월</td>'+week+'</tr>'; week=''; }
+  for(let i=0;i<startW;i++){ week+='<td></td>'; col++; }
+  for(let d=1; d<=lastDate; d++){
+    if(col===7){ flush(); col=0; }
+    const w = new Date(y,m-1,d).getDay();
+    const hol = isHoliday(y,m,d);
+    const isOff = (w===0||w===6||hol);
+    const t = days[d];
+    let cls = '';
+    if(hol) cls='hol'; else if(w===0) cls='sun';
+    week += `<td class="${cls}"><div class="dn">${d}</div>${(t&&!isOff)?`<div class="mk">${markSymbol(t)}</div>`:''}</td>`;
+    col++;
+  }
+  while(col<7){ week+='<td></td>'; col++; }
+  flush();
+  return `<table class="pf-cal"><thead><tr><th>구분</th>${WEEK.map((w,i)=>`<th class="${i===0?'sun':''}">${w}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+/* ============================================================
+   취합 탭
+============================================================ */
+document.getElementById('c-month').addEventListener('change', renderCollect);
+function renderCollect(){
+  const ym = document.getElementById('c-month').value || todayYM();
+  if(!document.getElementById('c-month').value) document.getElementById('c-month').value = ym;
+  const {y,m} = parseYM(ym);
+  const tableWrap = document.getElementById('c-table');
+  const detailWrap = document.getElementById('c-detail');
+
+  const active = DATA.members.filter(mb=>{ const n=getYearN(mb.startDate,y,m); return mb.name && n>=1 && n<=5; });
+  if(active.length===0){
+    tableWrap.innerHTML = `<div class="empty-msg">${ym} 기준 임금피크제 적용 대상자가 없습니다.<br>설정 탭에서 대상자와 적용시작일을 등록하세요.</div>`;
+    detailWrap.innerHTML=''; return;
+  }
+  let totGrant=0, totUsed=0, submitted=0;
+  let rows = active.map(mb=>{
+    const n = getYearN(mb.startDate,y,m);
+    const grant = grantFor(mb,n);
+    const p = DATA.plans[mb.id]?.[ym];
+    const used = p ? Object.values(p.days).reduce((a,t)=>a+dayValue(t),0) : 0;
+    const remain = grant-used;
+    const isSub = p && p.submittedAt;
+    if(isSub) submitted++;
+    totGrant+=grant; totUsed+=used;
+    return `<tr>
+      <td class="left">${esc(mb.name)}</td>
+      <td>${esc(mb.rank||'')}</td>
+      <td>${n}년차</td>
+      <td>${grant}일</td>
+      <td>${used}일</td>
+      <td><span class="${remain<0?'pill over':''}">${fmt(remain)}일</span></td>
+      <td><span class="pill ${isSub?'ok':'no'}">${isSub?'제출완료':'미제출'}</span></td>
+      <td style="font-size:12px;color:var(--muted);">${isSub?p.submittedAt:'-'}</td>
+      <td>${p ? `<button class="row-del collect-del" data-id="${mb.id}" title="이 제출 삭제">✕</button>` : '<span style="color:var(--muted);">-</span>'}</td>
+    </tr>`;
+  }).join('');
+  tableWrap.innerHTML = `
+    <table class="grid">
+      <thead><tr><th>성명</th><th>직급</th><th>년차</th><th>부여</th><th>사용</th><th>잔여</th><th>제출</th><th>최종저장</th><th style="width:60px;">삭제</th></tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr style="font-weight:800;background:#fbfcfe;">
+        <td colspan="3">합계 (${submitted}/${active.length} 제출)</td>
+        <td>${fmt(totGrant)}일</td><td>${fmt(totUsed)}일</td><td>${fmt(totGrant-totUsed)}일</td><td colspan="3"></td>
+      </tr></tfoot>
+    </table>
+    <p class="info-line" style="margin-top:8px;">※ 취합 후 수정이 필요하면 해당 직원 줄의 <b>✕</b>로 제출을 삭제할 수 있습니다. 삭제하면 ‘미제출’이 되며, 수정본 제출파일을 다시 ‘📥 제출파일 가져오기’ 하면 됩니다.</p>`;
+
+  // 제출 삭제 버튼 연결 (그 사람·해당 월만)
+  tableWrap.querySelectorAll('.collect-del').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.dataset.id;
+      const mb = memberById(id);
+      if(!DATA.plans[id] || !DATA.plans[id][ym]) return;
+      if(confirm(`${mb? mb.name : '이 대상자'}님의 ${ym} 제출을 삭제할까요?\n삭제 후에는 수정본을 다시 가져와야 합니다. (다른 달·다른 사람은 그대로 유지됩니다)`)){
+        delete DATA.plans[id][ym];
+        save();
+        renderCollect();
+      }
+    });
+  });
+
+  // 상세: 각 대상자별 사용일자 목록
+  detailWrap.innerHTML = '<h2 style="font-size:15px;margin:0 0 12px;">대상자별 사용일자 상세</h2>' +
+    active.map(mb=>{
+      const p = DATA.plans[mb.id]?.[ym];
+      const list = p ? Object.entries(p.days).sort((a,b)=>a[0]-b[0])
+        .map(([d,t])=>`${m}/${d}(${markLabel(t)})`).join(', ') : '';
+      return `<div style="padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.5px;">
+        <b>${esc(mb.name)}</b> ${esc(mb.rank||'')} &nbsp;—&nbsp; ${list||'<span style="color:var(--muted)">사용일 없음</span>'}
+        ${p&&p.note?`<div style="color:var(--muted);font-size:12.5px;margin-top:3px;">비고: ${esc(p.note)}</div>`:''}
+      </div>`;
+    }).join('');
+}
+
+document.getElementById('c-import').addEventListener('click', ()=> document.getElementById('c-file').click());
+document.getElementById('c-file').addEventListener('change', e=>{
+  const files = Array.from(e.target.files);
+  let count=0, msgs=[];
+  let pending = files.length;
+  files.forEach(f=> readJSON(f, obj=>{
+    if(obj && obj._type==="ipgeun_submission"){
+      const mb = matchMember(obj.member);
+      if(mb){
+        if(!DATA.plans[mb.id]) DATA.plans[mb.id]={};
+        DATA.plans[mb.id][obj.ym] = obj.plan;
+        count++; msgs.push(`${obj.member.name} (${obj.ym})`);
+      } else {
+        msgs.push(`⚠ ${obj.member?.name||'?'} : 명단에 없는 대상자 (설정 탭에 먼저 등록)`);
+      }
+    } else { msgs.push(`⚠ ${f.name} : 올바른 제출파일이 아닙니다.`); }
+    if(--pending===0){ save(); renderCollect(); alert(`가져오기 완료 (${count}건)\n\n`+msgs.join('\n')); }
+  }, ()=>{ if(--pending===0){ save(); renderCollect(); } }));
+  e.target.value='';
+});
+function matchMember(info){
+  if(!info) return null;
+  // 성명+적용시작일로 매칭, 없으면 성명으로
+  return DATA.members.find(m=>m.name===info.name && m.startDate===info.startDate)
+      || DATA.members.find(m=>m.name===info.name);
+}
+
+document.getElementById('c-csv').addEventListener('click', ()=>{
+  const ym = document.getElementById('c-month').value || todayYM();
+  const {y,m} = parseYM(ym);
+  const active = DATA.members.filter(mb=>{ const n=getYearN(mb.startDate,y,m); return mb.name && n>=1&&n<=5; });
+  let csv = "성명,직급,년차,부여휴가(일),사용(일),잔여(일),제출여부,사용일자,비고\n";
+  active.forEach(mb=>{
+    const n=getYearN(mb.startDate,y,m); const grant=grantFor(mb,n);
+    const p=DATA.plans[mb.id]?.[ym];
+    const used=p?Object.values(p.days).reduce((a,t)=>a+dayValue(t),0):0;
+    const list=p?Object.entries(p.days).sort((a,b)=>a[0]-b[0]).map(([d,t])=>`${m}/${d}(${markLabel(t)})`).join(' '):'';
+    csv += [esc(mb.name),esc(mb.rank||''),n+'년차',grant,used,fmt(grant-used),(p&&p.submittedAt)?'제출':'미제출',`"${list}"`,`"${p?.note||''}"`].join(',')+"\n";
+  });
+  download(`임금피크제_휴가취합_${ym}.csv`, "﻿"+csv, "text/csv");
+});
+document.getElementById('c-print').addEventListener('click', ()=>{
+  alert('취합표는 브라우저 인쇄(Ctrl+P)로 출력하거나, 엑셀(CSV) 내보내기를 이용하세요.\n원본 양식 인쇄는 「휴가계획서 작성」 탭에서 가능합니다.');
+});
+
+/* ============================================================
+   공용 유틸
+============================================================ */
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function fmt(n){ return Number(n).toFixed(2).replace(/\.?0+$/,''); }
+function nowStr(){ const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`; }
+function setStatus(id,msg){ const el=document.getElementById(id); el.textContent=msg; setTimeout(()=>{ if(el.textContent===msg) el.textContent=''; },4000); }
+function download(name, content, type="application/json"){
+  const blob = new Blob([content],{type}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=name; a.click(); URL.revokeObjectURL(url);
+}
+// 저장 위치 선택 창(지원 브라우저)으로 저장 → 저장하는 순간 폴더를 직접 보고 고를 수 있음.
+// 미지원(구형/Firefox 등) 시 기존 자동 다운로드(다운로드 폴더)로 대체.
+async function saveFile(name, content, type="application/json"){
+  if(window.showSaveFilePicker){
+    try{
+      const ext = name.slice(name.lastIndexOf('.')).toLowerCase();
+      const handle = await window.showSaveFilePicker({
+        suggestedName: name,
+        types: [{ description: '파일', accept: { [type]: [ext] } }]
+      });
+      const w = await handle.createWritable();
+      await w.write(new Blob([content], {type}));
+      await w.close();
+      return true;
+    }catch(e){
+      if(e && e.name==='AbortError') return false;   // 사용자가 취소
+      // 그 외 오류 → 자동 다운로드로 폴백
+    }
+  }
+  download(name, content, type);
+  return true;
+}
+function readJSON(file, ok, fail){
+  const r=new FileReader();
+  r.onload=()=>{ try{ ok(JSON.parse(r.result)); }catch(e){ alert(file.name+': 파일을 읽을 수 없습니다.'); fail&&fail(); } };
+  r.readAsText(file,'utf-8');
+}
+
+/* ============================================================
+   공유 명단 게시 (config.json)
+   - 배포된 config.json을 로딩 시 1회 적용 → 모든 대상자가 같은 명단을 봄
+   - 개인 휴가입력(plans)은 덮어쓰지 않음
+============================================================ */
+// ▼ 코드에 내장한 공유 명단 — 파일을 더블클릭(주소 없이)으로 열 때 사용됩니다.
+//    (명단을 바꾸려면 아래 members 목록을 수정하거나, 설정 탭에서 고친 뒤 다시 게시하세요.)
+const EMBEDDED_CONFIG = {
+  _type: "ipgeun_config",
+  publishedAt: "2026-06-08 10:00 #1749344400000",
+  grant: { 1:1.25, 2:2.25, 3:3.25, 4:4, 5:5 },
+  wageRate: 96,
+  members: [
+    { id:"m0gusang1", name:"구상욱", rank:"부장",     email:"swkoo@heungaline.com",     startDate:"2024-01-01", memo:"" },
+    { id:"m0kimchl2", name:"김철",   rank:"부장",     email:"youngkim@heungaline.com",  startDate:"2025-05-01", memo:"" },
+    { id:"m0parksu3", name:"박성수", rank:"부장",     email:"parkss11@sinokor.co.kr",   startDate:"2025-11-01", memo:"" },
+    { id:"m0parkjh4", name:"박재홍", rank:"부장",     email:"jhopark@heungaline.com",   startDate:"2024-02-01", memo:"" },
+    { id:"m0leesh05", name:"이승현", rank:"부장",     email:"shyiii@sinokor.co.kr",     startDate:"2024-01-01", memo:"" },
+    { id:"m0janghw6", name:"장희원", rank:"부장",     email:"jjang@sinokor.co.kr",      startDate:"2026-06-01", memo:"" },
+    { id:"m0jeongw7", name:"전광욱", rank:"부장",     email:"kujeon@sinokor.co.kr",     startDate:"2025-06-01", memo:"" },
+    { id:"m0jeonsh8", name:"전성현", rank:"부장대우", email:"sh.jeon@sinokor.co.kr",    startDate:"2026-05-01", memo:"" },
+    { id:"m0kimsj10", name:"김상준", rank:"차장",     email:"sjunkim@heungaline.com",   startDate:"2023-01-01", memo:"", grant:{1:1.25,2:2.25,3:3.25,4:5.5,5:5} },
+    { id:"m0leejj11", name:"이정준", rank:"수석",     email:"",                         startDate:"2026-07-01", memo:"" },
+    { id:"m0nohhs12", name:"노현석", rank:"부장",     email:"",                         startDate:"2026-07-01", memo:"" },
+    { id:"m0songkh11", name:"송국환", rank:"차장",    email:"",                         startDate:"2026-08-01", memo:"" },
+    { id:"m0kimjy12", name:"김종인", rank:"부장",     email:"",                         startDate:"2026-08-01", memo:"" }
+  ],
+  holidays: {...DEFAULT_HOLIDAYS}
+};
+function applyConfig(cfg){
+  if(!cfg || cfg._type!=='ipgeun_config' || !cfg.publishedAt) return;
+  if(cfg.publishedAt !== DATA._cfgVer){          // 새로 게시된 버전만 적용(1회)
+    if(cfg.grant) DATA.grant = cfg.grant;
+    if(typeof cfg.wageRate==='number') DATA.wageRate = cfg.wageRate;
+    if(Array.isArray(cfg.members)) DATA.members = cfg.members;
+    if(cfg.holidays && Object.keys(cfg.holidays).length) DATA.holidays = cfg.holidays;
+    if(typeof cfg.submitEmail==='string') DATA.submitEmail = cfg.submitEmail;
+    DATA._cfgVer = cfg.publishedAt;
+    save();
+  }
+  DATA._cfgPublishedAt = cfg.publishedAt;
+}
+async function loadSharedConfig(){
+  // 1순위: 대상자용 파일에 주입된 설정 (담당자가 배포한 파일)
+  if(window.__DISTRIBUTED_CONFIG__){ applyConfig(window.__DISTRIBUTED_CONFIG__); return; }
+  // 2순위: 같은 폴더의 config.json (사내 서버 배포 시)
+  try{
+    const res = await fetch('config.json?ts=' + Date.now(), {cache:'no-store'});
+    if(res.ok){
+      const cfg = await res.json();
+      applyConfig(cfg);
+      return;
+    }
+  }catch(e){ /* fetch 실패(file:// 더블클릭 실행 등) → 내장 명단으로 대체 */ }
+  // 3순위: 코드에 내장한 명단 (담당자 더블클릭용)
+  applyConfig(EMBEDDED_CONFIG);
+}
+// 대상자 모드: 설정·취합 탭을 없애고 '작성' 탭만 남긴다
+function applyEmployeeMode(){
+  if(!window.__EMPLOYEE_MODE__) return;
+  document.querySelectorAll('.tab').forEach(t=>{ if(t.dataset.tab!=='write') t.remove(); });
+  const setup = document.getElementById('tab-setup'); if(setup) setup.remove();
+  const collect = document.getElementById('tab-collect'); if(collect) collect.remove();
+  const wt = document.querySelector('.tab[data-tab="write"]'); if(wt) wt.classList.add('active');
+  document.getElementById('tab-write').style.display = '';
+  const tabsBar = document.querySelector('.tabs'); if(tabsBar) tabsBar.style.display = 'none';
+  const sub = document.querySelector('header.page .sub'); if(sub) sub.textContent = 'SINOKOR · 임금피크제 휴가계획서 (대상자 작성용)';
+
+  // 담당자가 지정한 '작성 대상 월'이 있으면 그 달로 고정 + 안내 배너 표시
+  if(window.__TARGET_YM__){
+    const {y, m} = parseYM(window.__TARGET_YM__);
+    wMonth.value = window.__TARGET_YM__;
+    wMonth.disabled = true;          // 직원은 이 달만 작성(변경 불가)
+    wMonth.style.background = '#f3f4f6';
+    wMonth.style.color = 'var(--muted)';
+    const banner = document.createElement('div');
+    banner.style.cssText = "margin:0 0 4px; padding:12px 16px; border:2px solid var(--a); border-radius:12px; background:#eef4ff; font-weight:800; font-size:15px; color:var(--a);";
+    banner.innerHTML = `📌 작성 대상: ${y}년 ${m}월 &nbsp;<span style="font-weight:600; font-size:13px; color:var(--muted);">— 이 달의 휴가계획서를 작성해 주세요.</span>`;
+    const card = document.getElementById('tab-write');
+    card.parentNode.insertBefore(banner, card);
+  }
+}
+function updateCfgState(){
+  const el = document.getElementById('cfg-state'); if(!el) return;
+  el.innerHTML = DATA._cfgPublishedAt
+    ? `현재 게시된 공유 명단: <b>${esc(String(DATA._cfgPublishedAt).split(' #')[0])}</b> 기준 (대상자 ${DATA.members.filter(m=>m.name).length}명)`
+    : '아직 게시된 공유 명단이 없습니다. (대상자 화면은 빈 명단으로 보입니다)';
+}
+function publishConfig(){
+  for(let n=1;n<=5;n++){ const v=parseFloat(document.querySelector(`[data-grant="${n}"]`).value); DATA.grant[n]=isNaN(v)?0:v; }
+  DATA.wageRate = parseFloat(document.getElementById('wage-rate').value)||96;
+  save();
+  const named = DATA.members.filter(m=>m.name).length;
+  if(named===0 && !confirm('등록된 대상자가 없습니다. 그래도 빈 명단으로 게시 파일을 만들까요?')) return;
+  const cfg = {
+    _type:'ipgeun_config',
+    publishedAt: nowStr() + ' #' + Date.now(),
+    grant: DATA.grant, wageRate: DATA.wageRate,
+    members: DATA.members, holidays: DATA.holidays
+  };
+  download('config.json', JSON.stringify(cfg,null,2));
+  setStatus('publish-status', `✅ config.json 생성 (대상자 ${named}명). 이 파일을 배포에 올리면 게시됩니다.`);
+}
+document.getElementById('publish-config').addEventListener('click', publishConfig);
+
+/* ============================================================
+   대상자용 파일 만들기 (설정이 통째로 담긴 단일 HTML 생성)
+============================================================ */
+async function makeEmployeeFile(){
+  // 화면의 회사 기준표/적용임금 입력값을 DATA에 먼저 반영(저장 안 눌렀어도 최신값으로)
+  for(let n=1;n<=5;n++){ const v=parseFloat(document.querySelector(`[data-grant="${n}"]`).value); DATA.grant[n]=isNaN(v)?0:v; }
+  DATA.wageRate = parseFloat(document.getElementById('wage-rate').value)||96;
+  DATA.submitEmail = (document.getElementById('submit-email').value||'').trim();
+  save();
+  const named = DATA.members.filter(m=>m.name).length;
+  if(named===0 && !confirm('등록된 대상자가 없습니다. 그래도 대상자용 파일을 만들까요?')) return;
+  const targetYM = document.getElementById('emp-target-month').value || todayYM();
+  // 배포 파일에는 이메일을 넣지 않음(직원끼리 서로 이메일 노출 방지)
+  const membersNoEmail = DATA.members.map(({email, ...rest}) => rest);
+  const cfg = {
+    _type:'ipgeun_config',
+    publishedAt: nowStr() + ' #' + Date.now(),
+    grant: DATA.grant, wageRate: DATA.wageRate,
+    members: membersNoEmail, holidays: DATA.holidays,
+    submitEmail: DATA.submitEmail
+  };
+  // 설정을 페이지 맨 앞에 주입 → 그 파일을 열면 대상자(작성 전용) 모드로 동작
+  const safe = JSON.stringify(cfg).replace(/</g, '\\u003c');
+  const inject = '<script>window.__DISTRIBUTED_CONFIG__=' + safe + ';window.__EMPLOYEE_MODE__=true;window.__TARGET_YM__=' + JSON.stringify(targetYM) + ';<\/script>';
+  let html = document.documentElement.outerHTML;
+  html = html.replace(/<head>/i, '<head>\n' + inject);
+  const saved = await saveFile('임금피크제_휴가계획서_대상자용.html', '<!DOCTYPE html>\n' + html, 'text/html');
+  if(!saved){ setStatus('employee-file-status', '저장이 취소되었습니다.'); return; }
+  const {y:ty, m:tm} = parseYM(targetYM);
+
+  // 등록된 대상자 이메일을 받는사람(To)으로 채운 배포 메일창 자동 열기
+  const emails = DATA.members.filter(m=>m.name && (m.email||'').trim()).map(m=>m.email.trim());
+  const noEmailNames = DATA.members.filter(m=>m.name && !(m.email||'').trim()).map(m=>m.name);
+  const dTo = encodeURIComponent(emails.join(';'));
+  const dSubject = encodeURIComponent(`[임금피크제] 휴가 사용계획서 작성 안내 (${ty}년 ${tm}월분)`);
+  const dBody = encodeURIComponent(
+    `오늘도 좋은 하루 되시기 바랍니다.\n\n` +
+    `${ty}년 ${tm}월분 휴가 사용계획서 작성을 안내드립니다.\n\n` +
+    `① 이 메일에 첨부된 「임금피크제_휴가계획서_대상자용.html」 파일을 더블클릭하여 본인 휴가계획을 작성해 주세요.\n` +
+    `② ‘제출파일 내보내기’를 하면 파일이 저장됩니다. 저장한 파일을 이 메일에 첨부해 주세요.\n` +
+    `③ 제출 기한: 0000년 0월 00일까지\n\n` +
+    `감사합니다.`
+  );
+  window.location.href = `mailto:${decodeURIComponent(dTo)}?subject=${dSubject}&body=${dBody}`;
+  const warn = noEmailNames.length ? ` (이메일 미입력: ${noEmailNames.join(', ')})` : '';
+  setStatus('employee-file-status',
+    `✅ 대상자용 파일 저장 (대상자 ${named}명 · 작성 대상 ${ty}년 ${tm}월). 받는사람 ${emails.length}명이 채워진 메일창을 열었습니다 — 방금 저장한 파일을 첨부해 보내세요.${warn}`);
+}
+document.getElementById('make-employee-file').addEventListener('click', makeEmployeeFile);
+
+/* ============================================================
+   초기화
+============================================================ */
+(async function init(){
+  await loadSharedConfig();
+  wMonth.value = todayYM();
+  if(!window.__EMPLOYEE_MODE__){
+    document.getElementById('c-month').value = todayYM();
+    loadSetupUI();
+    updateCfgState();
+  }
+  applyEmployeeMode();
+  refreshWriteMembers();
+})();
+</script>
+
+
+</body></html>
